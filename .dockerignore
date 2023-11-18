@@ -1,0 +1,6 @@
+.env
+.gitignore
+.prettierrc
+README.md
+quotes.json
+node_modules/
