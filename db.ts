@@ -1,9 +1,13 @@
-import { readFile, writeFile } from 'fs/promises';
+import { readFile, writeFile, mkdir } from 'fs/promises';
 
 async function getQuotes() {
+  try {
+    await mkdir('db');
+  } catch (e) {}
+
   let file = null;
   try {
-    file = (await readFile('quotes.json')).toString();
+    file = (await readFile('db/quotes.json')).toString();
   } catch (e) {}
 
   const quotes = file ? JSON.parse(file) : {};
@@ -20,7 +24,7 @@ export async function saveQuote(author: string, quote: string) {
 
   quotes[author].push(quote);
 
-  await writeFile('quotes.json', JSON.stringify(quotes));
+  await writeFile('db/quotes.json', JSON.stringify(quotes));
 }
 
 export async function getRandomQuote(author?: string) {
