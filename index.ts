@@ -4,7 +4,12 @@ import {
   Events,
   ChatInputCommandInteraction,
 } from 'discord.js';
-import { saveQuote, getRandomQuote, getAuthors } from './db';
+import {
+  saveQuote,
+  getRandomQuote,
+  getAuthors,
+  getQuotesFromAuthor,
+} from './db';
 import { updateCommands } from './commands';
 
 const { TOKEN } = process.env;
@@ -30,6 +35,10 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
     case 'authors':
       await authors(interaction);
+      break;
+
+    case 'listquotes':
+      await listQuotes(interaction);
       break;
   }
 });
@@ -73,5 +82,32 @@ async function authors(interaction: ChatInputCommandInteraction) {
   await interaction.reply({
     content: authors.join('\n'),
     ephemeral: true,
+  });
+}
+
+async function listQuotes(interaction: ChatInputCommandInteraction) {
+  const author = interaction.options.getString('author');
+
+  if (!author) {
+    await interaction.reply({
+      content: 'Missing author',
+      ephemeral: true,
+    });
+    return;
+  }
+
+  const quotes = await getQuotesFromAuthor(author.toLowerCase());
+
+  if (!quotes) {
+    await interaction.reply({
+      content: 'Author not found',
+      ephemeral: true,
+    });
+    return;
+  }
+
+  await interaction.reply({
+    content: `${author} quotes:\n
+    ${quotes.map((q) => `- ${q}`).join('\n')}`,
   });
 }

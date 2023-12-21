@@ -10,7 +10,7 @@ async function getQuotes() {
     file = (await readFile('db/quotes.json')).toString();
   } catch (e) {}
 
-  const quotes = file ? JSON.parse(file) : {};
+  const quotes: Record<string, string[]> = file ? JSON.parse(file) : {};
 
   return quotes;
 }
@@ -45,4 +45,9 @@ export async function getAuthors() {
   const quotes = await getQuotes();
 
   return Object.keys(quotes);
+}
+
+export async function getQuotesFromAuthor(author: string) {
+  const quotes = await getQuotes();
+  return quotes[author];
 }

@@ -49,6 +49,18 @@ export async function updateCommands() {
       .setName('authors')
       .setDescription('List authors')
       .toJSON(),
+    new SlashCommandBuilder()
+      .setName('listquotes')
+      .setDescription('Lists all quotes from author')
+      .addStringOption((option) =>
+        new SlashCommandStringOption()
+          .setName('author')
+          .setDescription('The author of the quote')
+          .setChoices(
+            ...authors.map((author) => ({ name: author, value: author })),
+          ),
+      )
+      .toJSON(),
   ];
 
   try {
