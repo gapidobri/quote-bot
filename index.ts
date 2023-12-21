@@ -107,7 +107,7 @@ async function listQuotes(interaction: ChatInputCommandInteraction) {
   }
 
   await interaction.reply({
-    content: `${author} quotes:\n
+    content: `${author} quotes:
     ${quotes.map((q) => `- ${q}`).join('\n')}`,
   });
 }
