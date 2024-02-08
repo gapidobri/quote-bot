@@ -14,19 +14,20 @@ const applicationCommandsRoute = Routes.applicationCommands(CLIENT_ID);
 const rest = new REST({ version: '10' }).setToken(TOKEN);
 
 export async function updateCommands() {
-  const authors = await getAuthors();
+  // const authors = await getAuthors();
 
   const commands = [
     new SlashCommandBuilder()
       .setName('quote')
       .setDescription('Display a random quote')
-      .addStringOption((option) =>
-        new SlashCommandStringOption()
-          .setName('author')
-          .setDescription('The author of the quote')
-          .setChoices(
-            ...authors.map((author) => ({ name: author, value: author })),
-          ),
+      .addStringOption(
+        (option) =>
+          new SlashCommandStringOption()
+            .setName('author')
+            .setDescription('The author of the quote'),
+        // .setChoices(
+        //   ...authors.map((author) => ({ name: author, value: author })),
+        // ),
       )
       .toJSON(),
     new SlashCommandBuilder()
@@ -52,13 +53,14 @@ export async function updateCommands() {
     new SlashCommandBuilder()
       .setName('listquotes')
       .setDescription('Lists all quotes from author')
-      .addStringOption((option) =>
-        new SlashCommandStringOption()
-          .setName('author')
-          .setDescription('The author of the quote')
-          .setChoices(
-            ...authors.map((author) => ({ name: author, value: author })),
-          ),
+      .addStringOption(
+        (option) =>
+          new SlashCommandStringOption()
+            .setName('author')
+            .setDescription('The author of the quote'),
+        // .setChoices(
+        //   ...authors.map((author) => ({ name: author, value: author })),
+        // ),
       )
       .toJSON(),
   ];
